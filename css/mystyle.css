@@ -1,7 +1,7 @@
 /*
  * Andrew Gabriel, andrew_gabriel@student.uml.edu
  * COMP 4610 - 201, Assignment 9
- * This file contains general styling for the Assignment.
+ * This file contains general styling for the assignment.
  */
 
 body {
@@ -36,6 +36,7 @@ h2 {
     margin: auto;
     width: 90%;
     min-width: 1020px;
+    max-width: 1300px;
 }
 
 p {

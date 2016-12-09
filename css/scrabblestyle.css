@@ -6,7 +6,7 @@
 
 /* Styles for the text at the top of the page */
 li:first-child {
-	list-style-type: none;
+    list-style-type: none;
 }
 
 /* Styles for the spaces of the Scrabble board */
@@ -73,9 +73,6 @@ td, td > div {
 
 #scrabbleRack {
     background-image: url('../image/ScrabbleRack.png');
-    position: absolute;
-    left: 645px;
-    top: 850px;
     width: 318px;
     height: 67px;
 }
@@ -102,7 +99,7 @@ td, td > div {
 }
 
 .empty {
-	background-color: black;
+    background-color: black;
 }
 
 
@@ -110,6 +107,7 @@ td, td > div {
 #interface {
     margin: auto;
     width: 360px;
+    height: 500px;
 }
 
 button {

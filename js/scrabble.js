@@ -225,183 +225,183 @@ $(document).ready(function(){
             /* Check words */
             var newWords = [];
             
-            /* *** Check words in rows *** */
-            for (i=0; i<15; i++) {
-                var temp = [];
-                var isNewWord = false;
-                var runningScore = 0;
-                var multiplier = 1;
-                for (j=0; j<=15; j++) {
-                    var $curTile = $(['#scrabbleTable>tr:nth-child(', i+1, ')>td:nth-child(', j+1, ')'].join(''));
+            /* *** Check a single letter *** */
+            if ($('.occupied').length === 1) {
+                var theNewWord = letterArray[7][7];
+                if (dict[theNewWord.toLowerCase()] !== true) {
+                    // Incorrect word found so stop trying to validate
+                    $('#message').each(function() {
+                        $(this).show();
+                        $(this).removeClass('validMessage').addClass('errorMessage');
+                        $(this).text(['Sorry, I don\'t think \"', theNewWord, 
+                                                 '\" is a word. Please click Return Tiles and try again.'].join(''));
+                    });
+                    return false;
+                } else {
+                    // Word is valid
+                    $('#message').each(function() {
+                        $(this).show();
+                        $(this).removeClass('errorMessage').addClass('validMessage');
+                        $(this).text(['Yes ', theNewWord, ' is a word!'].join(''));
+                    });
                     
-                    if ($curTile.hasClass('playerTileOccupied')) {
-                        isNewWord = true;
-                    }
-                    
-                    // End of word detected
-                    if (j === 15 || letterArray[i][j] === '*') {
-                        var theNewWord = temp.join('');
-                        if (theNewWord.length > 1 && isNewWord === true) {
-                            // Validate word
-                            if (dict[theNewWord.toLowerCase()] !== true) {
-                                // Incorrect word found so stop trying to validate
-                                $('#message').each(function() {
-                                    $(this).show();
-                                    $(this).removeClass('validMessage').addClass('errorMessage');
-                                    $(this).text(['Sorry, I don\'t think \"', theNewWord, 
-                                                             '\" is a word. Please click Return Tiles and try again.'].join(''));
-                                });
-                                return false;
-                            } else {
-                                // Word is valid
-                                newWords.push(temp.join(''));
-                                $('#scoreAmount').text(parseInt($('#scoreAmount').text()) + runningScore*multiplier);
-                            }
-                        }
-
-                        temp = [];
-                        isNewWord = false;
-                        runningScore = 0;
-                        multiplier = 1;
-                    } else {
-                        // Add the tile's value to the running score
-                        for (k=0; k<27; k++) {
-                            if (myPieces.pieces[k].letter === letterArray[i][j]) {
-                                if ($curTile.hasClass('doubleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
-                                    runningScore = runningScore + myPieces.pieces[k].value*2;
-                                } else if ($curTile.hasClass('tripleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
-                                    runningScore = runningScore + myPieces.pieces[k].value*3;
-                                } else {
-                                    runningScore = runningScore + myPieces.pieces[k].value;
-                                }
-                            }
-                        }
-                        
-                        if ($curTile.hasClass('playerTileOccupied')) {
-                            if ($curTile.hasClass('doubleWordScore') || $curTile.hasClass('startSpace')) {
-                                   multiplier = multiplier*2;
-                            } else if ($curTile.hasClass('tripleWordScore')) {
-                                   multiplier = multiplier*3;
-                            }
-                        }
-                        
-                        temp.push(letterArray[i][j]);
-                    }
+                    $('#scoreAmount').text(2);
                 }
-                
-                $('#message').each(function() {
-                    $(this).show();
-                    $(this).removeClass('errorMessage').addClass('validMessage');
-                    if (newWords.length === 1) {
-                        $(this).text(['Yes ', newWords[0], ' is a word!'].join(''));
-                    } else {
-                        $(this).text(['Yes ', newWords.join(', '), ' are all words!'].join(''));
-                    }
-                });
-            }
-
-            /* *** Check words in columns *** */
-            for (i=0; i<15; i++) {
-                var temp = [];
-                var isNewWord = false;
-                var runningScore = 0;
-                var multiplier = 1;
-                for (j=0; j<=15; j++) {
-                    var $curTile = $(['#scrabbleTable>tr:nth-child(', j+1, ')>td:nth-child(', i+1, ')'].join(''));
-                    
-                    if ($curTile.hasClass('playerTileOccupied')) {
-                        isNewWord = true;
-                    }
-                    
-                    // End of word detected
-                    if (j === 15 || letterArray[j][i] === '*') {
-                        var theNewWord = temp.join('');
-                        if (theNewWord.length > 1 && isNewWord === true) {
-                            // Validate word
-                            if (dict[theNewWord.toLowerCase()] !== true) {
-                                // Incorrect word found so stop trying to validate
-                                $('#message').each(function() {
-                                    $(this).show();
-                                    $(this).removeClass('validMessage').addClass('errorMessage');
-                                    $(this).text(['Sorry, I don\'t think \"', theNewWord, 
-                                                             '\" is a word. Please click Return Tiles and try again.'].join(''));
-                                });
-                                return false;
-                            } else {
-                                // Word is valid
-                                newWords.push(temp.join(''));
-                                $('#scoreAmount').text(parseInt($('#scoreAmount').text()) + runningScore*multiplier);
-                            }
-                        }
-
-                        temp = [];
-                        isNewWord = false;
-                        runningScore = 0;
-                        multiplier = 1;
-                    } else {
-                        // Add the tile's value to the running score
-                        for (k=0; k<27; k++) {
-                            if (myPieces.pieces[k].letter === letterArray[j][i]) {
-                                if ($curTile.hasClass('doubleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
-                                    runningScore = runningScore + myPieces.pieces[k].value*2;
-                                } else if ($curTile.hasClass('tripleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
-                                    runningScore = runningScore + myPieces.pieces[k].value*3;
-                                } else {
-                                    runningScore = runningScore + myPieces.pieces[k].value;
-                                }
-                            }
-                        }
+            } else {
+                /* *** Check words in rows *** */
+                for (i=0; i<15; i++) {
+                    var temp = [];
+                    var isNewWord = false;
+                    var runningScore = 0;
+                    var multiplier = 1;
+                    for (j=0; j<=15; j++) {
+                        var $curTile = $(['#scrabbleTable>tr:nth-child(', i+1, ')>td:nth-child(', j+1, ')'].join(''));
                         
                         if ($curTile.hasClass('playerTileOccupied')) {
-                            if ($curTile.hasClass('doubleWordScore') || $curTile.hasClass('startSpace')) {
-                                   multiplier = multiplier*2;
-                            } else if ($curTile.hasClass('tripleWordScore')) {
-                                   multiplier = multiplier*3;
-                            }
+                            isNewWord = true;
                         }
+                        
+                        // End of word detected
+                        if (j === 15 || letterArray[i][j] === '*') {
+                            var theNewWord = temp.join('');
+                            if (theNewWord.length > 1 && isNewWord === true) {
+                                theNewWord = correctBlanks(myPieces, theNewWord, dict);
+                                
+                                // Validate word
+                                if (dict[theNewWord.toLowerCase()] !== true) {
+                                    // Incorrect word found so stop trying to validate
+                                    $('#message').each(function() {
+                                        $(this).show();
+                                        $(this).removeClass('validMessage').addClass('errorMessage');
+                                        $(this).text(['Sorry, I don\'t think \"', theNewWord, 
+                                                                 '\" is a word. Please click Return Tiles and try again.'].join(''));
+                                    });
+                                    return false;
+                                } else {
+                                    // Word is valid
+                                    newWords.push(theNewWord);
+                                    $('#scoreAmount').text(parseInt($('#scoreAmount').text()) + runningScore*multiplier);
+                                }
+                            }
+    
+                            temp = [];
+                            isNewWord = false;
+                            runningScore = 0;
+                            multiplier = 1;
+                        } else {
+                            // Add the tile's value to the running score
+                            for (k=0; k<27; k++) {
+                                if (myPieces.pieces[k].letter === letterArray[i][j]) {
+                                    if ($curTile.hasClass('doubleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
+                                        runningScore = runningScore + myPieces.pieces[k].value*2;
+                                    } else if ($curTile.hasClass('tripleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
+                                        runningScore = runningScore + myPieces.pieces[k].value*3;
+                                    } else {
+                                        runningScore = runningScore + myPieces.pieces[k].value;
+                                    }
+                                }
+                            }
                             
-                        temp.push(letterArray[j][i]);
-                    }
-                }
-                
-                $('#message').each(function() {
-                    $(this).show();
-                    $(this).removeClass('errorMessage').addClass('validMessage');
-                    if (newWords.length === 1) {
-                        $(this).text(['Yes ', newWords[0], ' is a word!'].join(''));
-                    } else {
-                        $(this).text(['Yes ', newWords.join(', '), ' are all words!'].join(''));
-                    }
-                });
-            }
-            /*
-            for (i=0; i<newWords.length; i++) {
-                var numUnderscores = (newWords[i].match(/_/g) || []).length;
-                
-                // Blanks in a word are replaced with each letter of the alphabet until a word is found
-                if (numUnderscores === 1) {
-                    for (j=0; j<26; j++) {
-                        var temp = newWords[i].replace('_', myPieces.pieces[j].letter);
-                        if (dict[temp.toLowerCase()]) {
-                            newWords[i] = temp;
-                            break;
-                        }
-                    }
-                }
-                if (numUnderscores === 2) {
-                    for (j=0; j<26; j++) {
-                        var temp1 = newWords[i].replace('_', myPieces.pieces[j].letter);
-                        for (k=0; k<26; k++) {
-                            var temp2 = temp1.replace('_', myPieces.pieces[k].letter);
-                            if (dict[temp2.toLowerCase()]) {
-                                newWords[i] = temp2;
-                                break;
+                            if ($curTile.hasClass('playerTileOccupied')) {
+                                if ($curTile.hasClass('doubleWordScore') || $curTile.hasClass('startSpace')) {
+                                       multiplier = multiplier*2;
+                                } else if ($curTile.hasClass('tripleWordScore')) {
+                                       multiplier = multiplier*3;
+                                }
                             }
+                            
+                            temp.push(letterArray[i][j]);
                         }
                     }
+                    
+                    $('#message').each(function() {
+                        $(this).show();
+                        $(this).removeClass('errorMessage').addClass('validMessage');
+                        if (newWords.length === 1) {
+                            $(this).text(['Yes ', newWords[0], ' is a word!'].join(''));
+                        } else {
+                            $(this).text(['Yes ', newWords.join(', '), ' are all words!'].join(''));
+                        }
+                    });
+                }
+    
+                /* *** Check words in columns *** */
+                for (i=0; i<15; i++) {
+                    var temp = [];
+                    var isNewWord = false;
+                    var runningScore = 0;
+                    var multiplier = 1;
+                    for (j=0; j<=15; j++) {
+                        var $curTile = $(['#scrabbleTable>tr:nth-child(', j+1, ')>td:nth-child(', i+1, ')'].join(''));
+                        
+                        if ($curTile.hasClass('playerTileOccupied')) {
+                            isNewWord = true;
+                        }
+                        
+                        // End of word detected
+                        if (j === 15 || letterArray[j][i] === '*') {
+                            var theNewWord = temp.join('');
+                            if (theNewWord.length > 1 && isNewWord === true) {
+                                theNewWord = correctBlanks(myPieces, theNewWord, dict);
+                                
+                                // Validate word
+                                if (dict[theNewWord.toLowerCase()] !== true) {
+                                    // Incorrect word found so stop trying to validate
+                                    $('#message').each(function() {
+                                        $(this).show();
+                                        $(this).removeClass('validMessage').addClass('errorMessage');
+                                        $(this).text(['Sorry, I don\'t think \"', theNewWord, 
+                                                                 '\" is a word. Please click Return Tiles and try again.'].join(''));
+                                    });
+                                    return false;
+                                } else {
+                                    // Word is valid
+                                    newWords.push(theNewWord);
+                                    $('#scoreAmount').text(parseInt($('#scoreAmount').text()) + runningScore*multiplier);
+                                }
+                            }
+    
+                            temp = [];
+                            isNewWord = false;
+                            runningScore = 0;
+                            multiplier = 1;
+                        } else {
+                            // Add the tile's value to the running score
+                            for (k=0; k<27; k++) {
+                                if (myPieces.pieces[k].letter === letterArray[j][i]) {
+                                    if ($curTile.hasClass('doubleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
+                                        runningScore = runningScore + myPieces.pieces[k].value*2;
+                                    } else if ($curTile.hasClass('tripleLetterScore') && $curTile.hasClass('playerTileOccupied')) {
+                                        runningScore = runningScore + myPieces.pieces[k].value*3;
+                                    } else {
+                                        runningScore = runningScore + myPieces.pieces[k].value;
+                                    }
+                                }
+                            }
+                            
+                            if ($curTile.hasClass('playerTileOccupied')) {
+                                if ($curTile.hasClass('doubleWordScore') || $curTile.hasClass('startSpace')) {
+                                       multiplier = multiplier*2;
+                                } else if ($curTile.hasClass('tripleWordScore')) {
+                                       multiplier = multiplier*3;
+                                }
+                            }
+                                
+                            temp.push(letterArray[j][i]);
+                        }
+                    }
+                    
+                    $('#message').each(function() {
+                        $(this).show();
+                        $(this).removeClass('errorMessage').addClass('validMessage');
+                        if (newWords.length === 1) {
+                            $(this).text(['Yes ', newWords[0], ' is a word!'].join(''));
+                        } else {
+                            $(this).text(['Yes ', newWords.join(', '), ' are all words!'].join(''));
+                        }
+                    });
                 }
             }
-            */
             
             // Clone tiles that are on the board, deal new tiles
             $('.playerTile.placedOnTable').each(function() {
@@ -565,6 +565,7 @@ function validateSpaces(curSpace) {
     }
 }
 
+
 /* returnTiles():
  * 
  * This function returns the player tiles to the rack.
@@ -574,24 +575,26 @@ function validateSpaces(curSpace) {
  */
 
 function returnTiles(ease, tile) {
+    var rackPos = $('#scrabbleRack').offset();
     if (jQuery.type(tile) === 'undefined') {
         $('.playerTile').each(function(){
             var myId = $(this).attr('id');
             var index = myId.substring(myId.length-1, myId.length);
             $(this).animate({
-                left: 630 + 40*index,
-                top: 858
+                left: rackPos.left - 15  + 40*index,
+                top: rackPos.top + 8
             }, ease, function() {});
         });
     } else {
         var myId = tile.attr('id');
         var index = myId.substring(myId.length-1, myId.length);
         tile.animate({
-            left: 630 + 40*index,
-            top:858
+            left: rackPos.left - 15  + 40*index,
+            top: rackPos.top + 8
         }, ease, function() {});
     }
 }
+
 
 /* dealTile():
  * 
@@ -638,6 +641,7 @@ function updatePieces(myPieces, myLetter, inc) {
     return myPieces;
 }
 
+
 /* displayPieces():
  * 
  * This function takes a pieces object and displays its piece amounts
@@ -650,6 +654,51 @@ function displayPieces(myPieces) {
         $(this).text([myPieces.pieces[i].amount].join(''));
         i++;
     });
+}
+
+
+/* correctBlanks()
+ * 
+ * This function takes a word, and the dictionary in order to fix
+ * blank tiles in the word. It goes through each possible word, using
+ * the pieces object to go through each letter in the alphabet.
+ * If a proper word is found, that word is returned. If not, the
+ * original word iis returned.
+ */
+
+function correctBlanks(myPieces, theNewWord, dict) {
+    var i;
+    var j;
+
+    var numUnderscores = (theNewWord.match(/_/g) || []).length;
+    
+    if (numUnderscores === 0) {
+        return theNewWord;
+    }
+    
+    if (numUnderscores === 1) {
+        for (i=0; i<26; i++) {
+            var temp = theNewWord.replace('_', myPieces.pieces[i].letter);
+            
+            if (dict[temp.toLowerCase()]) {
+                return temp;
+            }
+        }
+    }
+    
+    if (numUnderscores === 2) {
+        for (i=0; i<26; i++) {
+            var temp1 = theNewWord.replace('_', myPieces.pieces[i].letter);
+            for (j=0; j<26; j++) {
+                var temp2 = temp1.replace('_', myPieces.pieces[j].letter);
+                if (dict[temp2.toLowerCase()]) {
+                    return temp2;
+                }
+            }
+        }
+    }
+    
+    return theNewWord;
 }
 
 
