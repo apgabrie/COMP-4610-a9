@@ -1,7 +1,6 @@
-/*
- * Andrew Gabriel, andrew_gabriel@student.uml.edu
- * COMP 4610 - 201, Assignment 9
- */
+Andrew Gabriel, andrew_gabriel@student.uml.edu
+COMP 4610 - 201, Assignment 9
+
 
 Scrabble tile images found at:
 https://teaching.cs.uml.edu/~heines/91.461/91.461-2015-16f/461-assn/
