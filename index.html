@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<!--
+  Andrew Gabriel, andrew_gabriel@student.uml.edu
+  COMP 4610 - 201, Assignment 9
+  This file contains the HTML for Assignment 9.
+-->
+
+<html lang="en">
+<head>
+    <title>Assignment 9</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"> </script>   <![endif]-->
+    
+    <!-- Style-sheets -->
+    <link rel="stylesheet" type="text/css" href="css/scrabblestyle.css">
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    
+        <!-- The jquery-ui stylesheet is from the jQuery UI library: http://jqueryui.com/ -->
+    <link href="css/jquery-ui.css" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        <div id="pageTitle">
+            <h1>Scrabble</h1>
+        </div>
+        
+        <div>
+            <p>
+                Tiles can only be placed on valid spaces, which are highlighted in green. 
+                The Return Tiles button returns all tiles that are currently on the board to the rack.
+                The New Hand button exchanges all tiles currently on the rack with a random one from the remaining tiles.
+                The End Turn Button ends the turn and attempts to validate all words created.
+                The New Game button resets everything, removing all tiles from the board, and setting the score to 0.
+                <br/>
+            </p>
+            <ul>
+                <li><b>NOTES:</b></li>
+                <li>As per the rules of Scrabble, the starting space counts as a "Double Word Score" space.</li> 
+                <li>Graphics do not display correctly after zooming in or out with your browser. </li>
+                <li>This application was only tested  in Firefox.</li>
+            </ul>
+            
+            <!-- Scrabble Table -->
+            <table id="scrabbleTable"></table>
+            
+            
+            <div id="interface">
+                <div id="tilesLists" class="myBox">
+                    <div>LETTER DISTRIBUTION</div><br/>
+                    <ul>
+                        <li> A - <span>9</span></li>
+                        <li> B - <span>2</span></li>
+                        <li> C - <span>2</span></li>
+                        <li> D - <span>4</span></li>
+                        <li> E - <span>12</span></li>
+                        <li> F - <span>2</span></li>
+                        <li> G - <span>3</span></li>
+                        <li> H - <span>2</span></li>
+                        <li> I - <span>9</span></li>
+                    </ul>
+                    <ul>
+                        <li> J - <span>1</span></li>
+                        <li> K - <span>1</span></li>
+                        <li> L - <span>4</span></li>
+                        <li> M - <span>2</span></li>
+                        <li> N - <span>6</span></li>
+                        <li> O - <span>8</span></li>
+                        <li> P - <span>2</span></li>
+                        <li> Q - <span>1</span></li>
+                        <li> R - <span>6</span></li>
+                    </ul>
+                    <ul>
+                        <li> S - <span>4</span></li>
+                        <li> T - <span>6</span></li>
+                        <li> U - <span>4</span></li>
+                        <li> V - <span>2</span></li>
+                        <li> W - <span>2</span></li>
+                        <li> X - <span>1</span></li>
+                        <li> Y - <span>2</span></li>
+                        <li> Z - <span>1</span></li>
+                        <li> BLANK - <span>2</span></li>
+                    </ul>
+                </div>
+                <div id="score" class="myBox">
+                    <div>Score</div><br/>
+                    <p id="scoreAmount">0</p>
+                </div>
+                
+                <button type="button" id="returnTilesButton">Return Tiles</button>
+                <button type="button" id="newHandButton">New Hand</button>
+                <button type="button" id="endTurnButton">End Turn</button>
+                <button type="button" id="newGameButton">New Game</button>
+                
+                <div id="scrabbleRack"></div>
+                
+                <div id="playerTile1" class="playerTile"></div>
+                <div id="playerTile2" class="playerTile"></div>
+                <div id="playerTile3" class="playerTile"></div>
+                <div id="playerTile4" class="playerTile"></div>
+                <div id="playerTile5" class="playerTile"></div>
+                <div id="playerTile6" class="playerTile"></div>
+                <div id="playerTile7" class="playerTile"></div>
+                
+                <div id="message"></div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    
+    
+    <!-- Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
+    <script src="js/scrabble.js"></script>
+    
+      <!-- The jQuery ui plugin is from http://jqueryui.com/ . -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</body>
+
+</html>

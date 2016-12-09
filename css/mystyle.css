@@ -1,0 +1,64 @@
+/*
+ * Andrew Gabriel, andrew_gabriel@student.uml.edu
+ * COMP 4610 - 201, Assignment 9
+ * This file contains general styling for the Assignment.
+ */
+
+body {
+    font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+    background-color: #9cfeab;
+    background-image: url('../image/bg.png');
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-attachment: scroll;
+}
+
+/* styles the header */
+h1 {
+    color: black;
+}
+
+#pageTitle {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #9CFEAB;
+    padding: 20px;
+}
+
+h2 {
+    margin: 0px;
+    font-size: 18px;
+    color: black;
+}
+
+/* Styles for the wrapper where all the content is. */
+#wrapper {
+    margin: auto;
+    width: 90%;
+    min-width: 1020px;
+}
+
+p {
+    text-indent: 30px;
+}
+
+div {
+    overflow: hidden;
+}
+
+#wrapper > div:nth-child(2) {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #e3ffe1;
+    color: black;
+    padding: 20px;
+}
+
+
+
+
+
+
+
+
+
